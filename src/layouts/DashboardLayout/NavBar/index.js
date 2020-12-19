@@ -56,11 +56,11 @@ const items = [
     icon: UserPlusIcon,
     title: 'Ticketactivity'
   },
-  // {
-  //   href: '/app/settings',
-  //   icon: SettingsIcon,
-  //   title: 'Settings'
-  // },
+  {
+    href: '/app/settings',
+    icon: SettingsIcon,
+    title: 'Settings'
+  },
   // {
   //   href: '/login',
   //   icon: LockIcon,
