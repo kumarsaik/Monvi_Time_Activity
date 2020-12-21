@@ -30,7 +30,7 @@ const INITIAL_STATE = {
   ],
 };
 
-const reducer = (state = INITIAL_STATE, action) => {
+const reportReducer = (state = INITIAL_STATE, action) => {
   switch (action.type) {
     case GET_REPORT_DATA:
       return {
@@ -43,4 +43,4 @@ const reducer = (state = INITIAL_STATE, action) => {
   }
 };
 
-export default reducer;
+export default reportReducer;

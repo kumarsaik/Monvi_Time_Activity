@@ -24,7 +24,7 @@ const headers = [
   { label: "Product", key: "service_name" },
   { label: "Memo", key: "description" },
   { label: "Duration", key: "time" },
-  { label: "Billable", key: "billable" }
+  { label: "Billable", key: "billable" },
 ];
 
 export default function Report() {
@@ -34,8 +34,7 @@ export default function Report() {
   const dispatch = useDispatch();
   const getReport = () => {
     axios
-      .get("http://localhost:5000/api/timeactivity", {
-      })
+      .get("http://localhost:5000/api/timeactivity", {})
       .then(function(response) {
         console.log(response);
         setRowData(response.data.result);

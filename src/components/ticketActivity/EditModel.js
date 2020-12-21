@@ -5,19 +5,31 @@ import DialogTitle from "@material-ui/core/DialogTitle";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogActions from "@material-ui/core/DialogActions";
 import Dialog from "@material-ui/core/Dialog";
+import { useDispatch, useSelector } from "react-redux";
+import { updateTicketRowData } from "../../redux/actions/ticketActivityActions";
 
-import { Checkbox, TextField, Input, Grid, Select } from "@material-ui/core";
+import { TextField, Input, Grid, Select } from "@material-ui/core";
 
 function EditModel(props) {
   const { onClose, value: valueProp, open, ...other } = props;
   const [value, setValue] = React.useState(valueProp);
   const radioGroupRef = React.useRef(null);
   const classes = useStyles();
+  const dispatch = useDispatch();
+  const filteredRow = useSelector(
+    (state) => state.ticketActivityReducer.filteredRow
+  );
+  const [updateRow, setUpdateRow] = React.useState(filteredRow);
+  console.log("updateRow::::", updateRow);
+
   React.useEffect(() => {
     if (!open) {
       setValue(valueProp);
     }
   }, [valueProp, open]);
+  React.useEffect(() => {
+    setUpdateRow(filteredRow);
+  }, [filteredRow]);
 
   const handleEntering = () => {
     if (radioGroupRef.current != null) {
@@ -29,8 +41,13 @@ function EditModel(props) {
     onClose();
   };
 
+  const handleOnchageValue = (event) => {
+    console.log("event", event.target.value);
+    setUpdateRow({ ...updateRow, [event.target.name]: event.target.value });
+  };
   const handleOk = () => {
-    onClose(value);
+    dispatch(updateTicketRowData(updateRow));
+    onClose();
   };
 
   const handleChange = (event) => {
@@ -49,23 +66,32 @@ function EditModel(props) {
       <div className={classes.dialogBox}>
         <Grid xs={12} className={classes.firstInputFieldStyle}>
           <label className={classes.labelWidth}>AssignedTo</label>
-          <Input />
+          <Input
+            name="ticket_assignedto"
+            value={updateRow.ticket_assignedto}
+            onChange={handleOnchageValue}
+          />
         </Grid>
         <Grid xs={12} className={classes.inputFieldStyle}>
           <label className={classes.labelWidth}>email</label>
-          <Input />
+          <Input
+            value={updateRow.email}
+            name="email"
+            onChange={handleOnchageValue}
+          />
         </Grid>
         <Grid xs={12} className={classes.inputFieldStyle}>
           <label className={classes.labelWidth}>Status</label>
           <Select
             native
-            onChange={handleChange}
+            onChange={handleOnchageValue}
             className={classes.selectStyle}
+            value={updateRow.ticket_status}
+            name="ticket_status"
           >
-            <option aria-label="None" value="" />
-            <option value={10}>Ten</option>
-            <option value={20}>Twenty</option>
-            <option value={30}>Thirty</option>
+            <option value="Open">Open</option>
+            <option value="Pending">Pending</option>
+            <option value="Close">Close</option>
           </Select>
         </Grid>
 
@@ -76,6 +102,9 @@ function EditModel(props) {
             multiline
             rows={4}
             variant="outlined"
+            value={updateRow.ticket_content}
+            name="ticket_content"
+            onChange={handleOnchageValue}
           />
         </Grid>
       </div>
