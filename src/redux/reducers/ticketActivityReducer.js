@@ -1,7 +1,8 @@
 import {
-  GET_TIME_ACTIVITY_DATA,
+  GET_TICKET_ACTIVITY_DATA,
   GET_ROW_FILTER,
   UPDATE_TICKET_ROW_DATA,
+  GET_TICKET_DATA_SUCCESS,
 } from "../typeConstants";
 
 const INITIAL_STATE = {
@@ -9,47 +10,59 @@ const INITIAL_STATE = {
   filteredRow: [],
   timeActivityRowData: [
     {
-      ticket_id: "9867888",
-      ticket_assignedto: "Sai",
-      ticket_createddate: "1-2-2020",
-      ticket_status: "Open",
-      user_name: "XYZ",
-      email: "t@t.com",
-      ticket_updateddate: "10-20-2020",
-      ticket_content: "The The The",
+      user_name: "Dummy",
+      email: "xyz@gmail.com",
+      ticket_id: "123456",
+      ticket_content: "Not able to get the allowence",
+      ticket_area: "Payrolle",
+      ticket_attachments: null,
+      comments: null,
+      ticket_createddate: "2020-11-12",
+      ticket_updateddate: null,
+      ticket_status: "Raised",
+      ticket_resolution: null,
+      ticket_assignedto: "Lohith",
+      ticket_createdby: "Sairamreddy",
     },
     {
-      ticket_id: "9867899",
-      ticket_assignedto: "Lohith",
-      ticket_createddate: "3-7-2020",
-      ticket_status: "Pending",
-      user_name: "ABC",
-      email: "test@test.com",
-      ticket_updateddate: "10-20-2020",
-      ticket_content: "The The The",
+      user_name: "Dummy",
+      email: "xyz@gmail.com",
+      ticket_id: "123456",
+      ticket_content: "Not able to get the allowence",
+      ticket_area: "Payrolle",
+      ticket_attachments: null,
+      comments: null,
+      ticket_createddate: "2020-11-12",
+      ticket_updateddate: null,
+      ticket_status: "Raised",
+      ticket_resolution: null,
+      ticket_assignedto: "Rakesh",
+      ticket_createdby: "Sairamreddy",
     },
   ],
 };
 
 const ticketActivityReducer = (state = INITIAL_STATE, action) => {
   switch (action.type) {
-    case GET_TIME_ACTIVITY_DATA:
+    case GET_TICKET_ACTIVITY_DATA:
       return {
         ...state,
         rows: state.timeActivityRowData,
       };
+    case GET_TICKET_DATA_SUCCESS:
+      return {
+        ...state,
+        rows: action.response.data.result,
+      };
     case GET_ROW_FILTER:
       return {
         ...state,
-        filteredRow: rowFilterById(state.timeActivityRowData, action.rowId),
+        filteredRow: rowFilterById(state.rows, action.rowId),
       };
     case UPDATE_TICKET_ROW_DATA:
       return {
         ...state,
-        timeActivityRowData: updateRowValue(
-          state.timeActivityRowData,
-          action.updatedRow
-        ),
+        rows: updateRowValue(state.rows, action.updatedRow),
       };
 
     default:

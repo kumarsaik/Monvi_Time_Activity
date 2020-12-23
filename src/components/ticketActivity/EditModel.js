@@ -5,6 +5,7 @@ import DialogTitle from "@material-ui/core/DialogTitle";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogActions from "@material-ui/core/DialogActions";
 import Dialog from "@material-ui/core/Dialog";
+import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import { updateTicketRowData } from "../../redux/actions/ticketActivityActions";
 
@@ -45,7 +46,7 @@ function EditModel(props) {
     console.log("event", event.target.value);
     setUpdateRow({ ...updateRow, [event.target.name]: event.target.value });
   };
-  const handleOk = () => {
+  const handleSave = () => {
     dispatch(updateTicketRowData(updateRow));
     onClose();
   };
@@ -96,14 +97,14 @@ function EditModel(props) {
         </Grid>
 
         <Grid xs={12} className={classes.inputFieldStyle}>
-          <label className={classes.discriptionLabel}>Description</label>
+          <label className={classes.discriptionLabel}>comments</label>
           <TextField
             id="standard-multiline-static"
             multiline
             rows={4}
             variant="outlined"
-            value={updateRow.ticket_content}
-            name="ticket_content"
+            value={updateRow.comments}
+            name="comments"
             onChange={handleOnchageValue}
           />
         </Grid>
@@ -112,7 +113,7 @@ function EditModel(props) {
         <Button autoFocus onClick={handleCancel} color="primary">
           Cancel
         </Button>
-        <Button onClick={handleOk} color="primary">
+        <Button onClick={handleSave} color="primary">
           Save
         </Button>
       </DialogActions>
