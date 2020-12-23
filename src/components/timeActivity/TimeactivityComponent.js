@@ -20,11 +20,12 @@ import axios from "axios";
 const useStyles = makeStyles(() => timeActivityStyle);
 
 export default function Timeactivity(props) {
-  console.log("props",props);
+  console.log("props",props.user);
   const classes = useStyles();
   const [user, setUser] = React.useState(props.user);
   const [customerData, setCustomerData] = React.useState([]);
   const [serviceData, setServiceData] = React.useState([]);
+  const [toggleCheck, setToggleCheck] = React.useState(true);
   const form = React.useRef(null)
   const timeactivityData = (e) => {
     e.preventDefault();
@@ -42,8 +43,11 @@ export default function Timeactivity(props) {
   React.useEffect(() => {
     getCustomer();
     getService();
-  }, []);
 
+  }, []);
+  React.useEffect(()=>{
+   setUser({ ...user, billable: toggleCheck })
+  }, []);
   const getCustomer = () => {
     axios
       .get("http://localhost:5000/api/customer", {
@@ -99,8 +103,8 @@ export default function Timeactivity(props) {
             </Grid>
             <Grid xs={12} className={classes.inputFieldStyle}>
               <label className={classes.labelWidth}>Name</label>
-              <Input type="text" name="user[name]" placeholder="DilipGudivada"
-              onChange={e => setUser({ ...user, name: e.target.value })}
+              <Input type="text" name="user[name]" placeholder="DilipGudivada" disabled
+              onChange={e => setUser({ ...user, name: "DilipGudivada" })}
                />
             </Grid>
             <Grid xs={12} className={classes.inputFieldStyle}>
@@ -128,8 +132,9 @@ export default function Timeactivity(props) {
               </NativeSelect>
             </Grid>
             <Checkbox
-              checked="true"
-              onChange={e => setUser({ ...user, billable: true })} 
+              checked={toggleCheck}
+              name="user[billable]"
+              onChange={e => setToggleCheck(!toggleCheck)} 
               inputProps={{ "aria-label": "primary checkbox" }}
             />{" "}
             <label>Billable</label>
