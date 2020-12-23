@@ -107,7 +107,7 @@ const ReportData = ({ exportAsPdf, printTable, data, headers }) => {
                 <TableCell align="right">{row.service_name}</TableCell>
                 <TableCell align="right">{row.description}</TableCell>
                 <TableCell align="right">{row.time}</TableCell>
-                <TableCell align="right">{row.billable}</TableCell>
+                <TableCell align="right">{row.billable == 1? "True":"False"}</TableCell>
               </TableRow>
             ))}
           </TableBody>
