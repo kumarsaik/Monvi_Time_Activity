@@ -5,11 +5,11 @@ import DialogTitle from "@material-ui/core/DialogTitle";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogActions from "@material-ui/core/DialogActions";
 import Dialog from "@material-ui/core/Dialog";
-import axios from "axios";
+import moment from "moment";
 import { useDispatch, useSelector } from "react-redux";
-import { updateTicketRowData } from "../../redux/actions/ticketActivityActions";
+import { createTicketRowData } from "../../redux/actions/ticketActivityActions";
 
-import { TextField,Divider, Input, Grid, Select } from "@material-ui/core";
+import { TextField,Divider, Input, Grid, Select} from "@material-ui/core";
 
 function AddTicketModel(props) {
     console.log("props", props)
@@ -21,7 +21,17 @@ function AddTicketModel(props) {
   const filteredRow = useSelector(
     (state) => state.ticketActivityReducer.filteredRow
   );
-  const [updateRow, setUpdateRow] = React.useState([]);
+  const [updateRow, setUpdateRow] = React.useState({
+    "ticket_createddate": moment().format("YYYY-MM-DD"),
+    "ticket_id": Math.floor((Math.random() * 100000) + 1),
+    "user_name": "Dilip",
+    "ticket_area": "Payrolle",
+    "ticket_attachments": null,
+    "ticket_updateddate": moment().format("YYYY-MM-DD"),
+    "ticket_resolution": null,
+    "ticket_status":"Todo",
+    "ticket_createdby": "DilipGudivada"
+  });
   console.log("updateRow::::", updateRow);
 
   React.useEffect(() => {
@@ -48,7 +58,7 @@ function AddTicketModel(props) {
     setUpdateRow({ ...updateRow, [event.target.name]: event.target.value });
   };
   const handleSave = () => {
-    // dispatch(updateTicketRowData(updateRow));
+    dispatch(createTicketRowData(updateRow));
     onClose();
   };
 
@@ -105,9 +115,9 @@ function AddTicketModel(props) {
             value={updateRow.ticket_status}
             name="ticket_status"
           >
-            <option value="Open">TODO</option>
-            <option value="Pending">InProgress</option>
-            <option value="Pending">Review</option>
+            <option value="Todo">TODO</option>
+            <option value="InProgress">InProgress</option>
+            <option value="Review">Review</option>
             <option value="Close">Close</option>
           </Select>
         </Grid>

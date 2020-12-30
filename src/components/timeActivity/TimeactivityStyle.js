@@ -1,12 +1,12 @@
 export const timeActivityStyle = {
   root: {
     "& > *": {
-      margin: "9px",
+      margin: "10px",
       flexGrow: 1,
     },
   },
   inputFieldStyle: {
-    marginBottom: "15px",
+    marginBottom: "20px",
     display: "flex",
   },
   labelWidth: {
@@ -17,7 +17,7 @@ export const timeActivityStyle = {
     marginTop: "40px",
   },
   image: {
-    position: "absolute",
+    // position: "absolute",
     top: "75px",
     width: "20px",
     height: "15px",

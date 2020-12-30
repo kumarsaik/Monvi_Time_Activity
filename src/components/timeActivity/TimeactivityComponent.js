@@ -5,11 +5,15 @@ import {
   makeStyles,
   Checkbox,
   TextField,
-  Input,
+  Select,
   Grid,
   Box,
-  NativeSelect
+  NativeSelect,
+  FormControl,
+  InputLabel
 } from "@material-ui/core";
+import { ToastContainer, toast } from 'react-toastify';
+import "react-toastify/dist/ReactToastify.css";
 import Page from "src/components/Page";
 import logo from "../../images/reloadtime-circle-512.png";
 import Button from "@material-ui/core/Button";
@@ -30,13 +34,30 @@ export default function Timeactivity(props) {
   const timeactivityData = (e) => {
     e.preventDefault();
     const data = new FormData(e.target)
+    console.log("dat",data);
     axios
       .post("http://localhost:5000/api/timeactivity", user)
       .then(function(response) {
-        console.log(response);
+        toast.success(response.data.message, {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          });
       })
       .catch(function(error) {
-        console.log(error);
+        toast.error('Error', {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          });
       });
   };
 
@@ -87,78 +108,142 @@ export default function Timeactivity(props) {
 
       <Divider />
       <form className={classes.root} noValidate autoComplete="off" ref={form} onSubmit={timeactivityData}>
-        <Grid container spacing={5}>
-          <Grid item xs={6}>
-            <Grid xs={12} className={classes.inputFieldStyle}>
-              <label className={classes.labelWidth}>Date</label>
-              <TextField
-                id="date"
-                type="date"
-                name="user[date]" 
-                onChange={e => setUser({ ...user, date: e.target.value })}
+        <Grid container spacing={6}>
+        <Grid xs={10}>
+
+        <TextField
+            fullWidth
+            label="Date"
+            required
+            margin="normal"
+            name="date"
+            onChange={e => setUser({ ...user, date: e.target.value })}
+            type="date"
+            value={user && user.date ? user.date : ''}
+            variant="outlined"
+            InputLabelProps={{
+              shrink: true,
+            }}
+          />
+          </Grid>
+
+          <Grid xs={10}>
+          <TextField
+            fullWidth
+            label="Name"
+            margin="normal"
+            name="name"
+            required
+            onChange={e => setUser({ ...user, name: e.target.value })}
+            type="text"
+            value={user && user.name ? user.name : 'DilipGudivada'}
+            variant="outlined"
+            InputLabelProps={{
+              shrink: true,
+            }}
+          />
+          </Grid>
+<Grid xs={10}>
+          <TextField
+            fullWidth
+            label="Time"
+            margin="normal"
+            name="time"
+            required
+            onChange={e => setUser({ ...user, time: e.target.value })}
+            type="text"
+            value={user && user.time ? user.time : ''}
+            variant="outlined"
+            InputLabelProps={{
+              shrink: true,
+            }}
+          />
+          </Grid>
+          <Grid xs={10}>
+          <TextField
+                fullWidth
+                multiline
+                rows={10}
+                label="Description"
+                name="description" 
+                margin="normal"
+                required
+                onChange={e => setUser({ ...user, description: e.target.value })} 
+                variant="outlined"
                 InputLabelProps={{
                   shrink: true,
                 }}
+                value={user && user.description ? user.description : ''}
               />
             </Grid>
-            <Grid xs={12} className={classes.inputFieldStyle}>
-              <label className={classes.labelWidth}>Name</label>
-              <Input type="text" name="user[name]" placeholder="DilipGudivada" disabled
-              onChange={e => setUser({ ...user, name: "DilipGudivada" })}
-               />
-            </Grid>
-            <Grid xs={12} className={classes.inputFieldStyle}>
-              <label className={classes.labelWidth}>Customer</label>
-              <NativeSelect
-              name="user[customer]"
-              onChange={e => setUser({ ...user, customer_name: e.target.value })}
-              className={classes.selectEmpty}
-               >
-              <option value="">None</option>
+       
+            <Grid xs={10}>
+            
+            <FormControl variant="outlined" fullWidth >
+            <InputLabel id="role-select-outlined-label" > Customer Name </InputLabel>
+            <Select style={{ textAlign: 'left' }}
+                            fullWidth
+                            label="Customer Name"
+                            required
+                            native
+                            inputProps={
+                                {
+                                    shrink: true,
+                                }
+                            }
+                            placeholder="Select Customer"
+                            variant="outlined"
+                            margin="normal"
+                            name="customer"
+                            className={classes.inputFieldStyle}
+                            onChange={e => setUser({ ...user, customer_name: e.target.value })} 
+                            value={user && user.customer_name ? user.customer_name: ''}
+                        >
+                       <option aria-label="None" value="" />
               {customerData.map((row) => (
               <option value={row.customer_name}>{row.customer_name}</option>))}
-              </NativeSelect>
+                        </Select>
+                        </FormControl>
             </Grid>
-            <Grid xs={12} className={classes.inputFieldStyle}>
-              <label className={classes.labelWidth}>Service</label>
-              <NativeSelect
-              name="user[Service]"
-              onChange={e => setUser({ ...user, service_name: e.target.value })}
-              className={classes.selectEmpty}
-               >
-              <option value="">None</option>
+            <Grid xs={10}>
+            <FormControl variant="outlined" className={classes.formControl} fullWidth >
+            <InputLabel id="role-select-outlined-label" > Service </InputLabel>
+            <Select
+                            fullWidth
+                            label="Service"
+                            native
+                            required
+                            inputProps={
+                                {
+                                    shrink: true,
+                                }
+                            }
+                            placeholder="Select Service"
+                            variant="outlined"
+                            name="service"
+                            className={classes.inputFieldStyle}
+                            onChange={e => setUser({ ...user, service_name: e.target.value })} 
+                            value={user && user.service_name ? user.service_name: ''}
+                        >
+                       <option aria-label="None" value="" />
               {serviceData.map((row) => (
               <option value={row.service_name}>{row.service_name}</option>))}
-              </NativeSelect>
-            </Grid>
-            <Checkbox
+                        </Select>
+                        </FormControl>
+    </Grid>
+            
+            <Grid xs={10}>
+          <Checkbox
               checked={toggleCheck}
               name="user[billable]"
               onChange={e => setToggleCheck(!toggleCheck)} 
               inputProps={{ "aria-label": "primary checkbox" }}
             />{" "}
             <label>Billable</label>
-          </Grid>
-          <Grid item xs={6}>
-            <Grid xs={12} className={classes.inputFieldStyle}>
-              <label className={classes.labelWidth}>Time</label>
-              <Input type="text" name="user[time]"
-              onChange={e => setUser({ ...user, time: e.target.value })} 
-              />
             </Grid>
-            <Grid xs={12} className={classes.inputFieldStyle}>
-              <label className={classes.discriptionLabel}>Description</label>
-              <TextField
-                id="standard-multiline-static"
-                multiline
-                rows={4}
-                name="user[description]" 
-                onChange={e => setUser({ ...user, description: e.target.value })} 
-                variant="outlined"
-              />
-            </Grid>
+
           </Grid>
-        </Grid>
+        
       <Button
         type="submit"
         variant="contained"
@@ -169,6 +254,16 @@ export default function Timeactivity(props) {
       >
         Save
       </Button>
+      <ToastContainer
+      position="top-center"
+      autoClose={5000}
+      hideProgressBar={false}
+      newestOnTop={false}
+      closeOnClick
+      rtl={false}
+      pauseOnFocusLoss
+      draggable
+      pauseOnHover/>
       </form>
     </Page>
   );
