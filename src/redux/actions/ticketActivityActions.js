@@ -20,6 +20,7 @@ export const getRowFilterToEdit = (rowId) => {
 };
 export const updateTicketRowData = (updatedRow) => {
   return (dispatch) => {
+    console.log("updatedRow",updatedRow)
     return Axios.put(
       `http://localhost:5000/ticket/${updatedRow.ticket_id}/`,
       updatedRow

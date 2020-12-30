@@ -43,10 +43,10 @@ function TicketActivityRow(props) {
           </IconButton>
         </TableCell>
         <TableCell scope="row">{row.ticket_id}</TableCell>
-        <TableCell align="right">{row.ticket_assignedto}</TableCell>
-        <TableCell align="right">{row.ticket_createddate}</TableCell>
-        <TableCell align="right">{row.ticket_status}</TableCell>
-        <TableCell align="right">
+        <TableCell align="left">{row.ticket_assignedto}</TableCell>
+        <TableCell align="left">{row.ticket_createddate}</TableCell>
+        <TableCell align="left">{row.ticket_status}</TableCell>
+        <TableCell align="center">
           <Button
             variant="contained"
             size="small"

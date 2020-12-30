@@ -12,9 +12,13 @@ import {
   makeStyles
 } from '@material-ui/core';
 import { Search as SearchIcon } from 'react-feather';
+import AddTicketModel from "../components/ticketActivity/AddTicketModel";
 
 const useStyles = makeStyles((theme) => ({
   root: {},
+  addButton:{    
+    // left: "20px"
+  },
   importButton: {
     marginRight: theme.spacing(1)
   },
@@ -25,6 +29,15 @@ const useStyles = makeStyles((theme) => ({
 
 const Toolbar = ({ className, ...rest }) => {
   const classes = useStyles();
+  const [openAddModel, setOpenAddModel] = React.useState(false);
+
+  const handleAdd = (rowVal) => {
+    setOpenAddModel(true);
+  };
+
+  const handleClose = (newValue) => {
+    setOpenAddModel(false);
+  };
 
   return (
     <div
@@ -35,6 +48,7 @@ const Toolbar = ({ className, ...rest }) => {
         display="flex"
         justifyContent="flex-end"
       >
+        <Button className={classes.addButton} onClick={handleAdd} color="primary">Add Ticket</Button>
         <Button className={classes.importButton}>
           All Issues
         </Button>
@@ -42,6 +56,15 @@ const Toolbar = ({ className, ...rest }) => {
           My Issues
         </Button>
       </Box>
+      <AddTicketModel
+        classes={{
+          paper: classes.paper,
+        }}
+        id="ringtone-menu"
+        keepMounted
+        open={openAddModel}
+        onClose={handleClose}
+      />
     </div>
   );
 };

@@ -5,13 +5,14 @@ import DialogTitle from "@material-ui/core/DialogTitle";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogActions from "@material-ui/core/DialogActions";
 import Dialog from "@material-ui/core/Dialog";
-import moment from "moment";
+import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import { updateTicketRowData } from "../../redux/actions/ticketActivityActions";
 
-import { TextField, Input, Grid, Select } from "@material-ui/core";
+import { TextField,Divider, Input, Grid, Select } from "@material-ui/core";
 
-function EditModel(props) {
+function AddTicketModel(props) {
+    console.log("props", props)
   const { onClose, value: valueProp, open, ...other } = props;
   const [value, setValue] = React.useState(valueProp);
   const radioGroupRef = React.useRef(null);
@@ -20,24 +21,23 @@ function EditModel(props) {
   const filteredRow = useSelector(
     (state) => state.ticketActivityReducer.filteredRow
   );
-  const [updateRow, setUpdateRow] = React.useState(filteredRow);
+  const [updateRow, setUpdateRow] = React.useState([]);
   console.log("updateRow::::", updateRow);
-  console.log("filteredRow::::", filteredRow);
 
   React.useEffect(() => {
     if (!open) {
       setValue(valueProp);
     }
   }, [valueProp, open]);
-  React.useEffect(() => {
-    setUpdateRow(filteredRow);
-  }, [filteredRow]);
+//   React.useEffect(() => {
+//     setUpdateRow(filteredRow);
+//   }, [filteredRow]);
 
-  const handleEntering = () => {
-    if (radioGroupRef.current != null) {
-      radioGroupRef.current.focus();
-    }
-  };
+//   const handleEntering = () => {
+//     if (radioGroupRef.current != null) {
+//       radioGroupRef.current.focus();
+//     }
+//   };
 
   const handleCancel = () => {
     onClose();
@@ -48,7 +48,7 @@ function EditModel(props) {
     setUpdateRow({ ...updateRow, [event.target.name]: event.target.value });
   };
   const handleSave = () => {
-    dispatch(updateTicketRowData(updateRow));
+    // dispatch(updateTicketRowData(updateRow));
     onClose();
   };
 
@@ -60,11 +60,13 @@ function EditModel(props) {
     <Dialog
       disableBackdropClick
       disableEscapeKeyDown
-      onEntering={handleEntering}
+    //   onEntering={handleEntering}
       aria-labelledby="confirmation-dialog-title"
       open={open}
       {...other}
     >
+        <DialogTitle>Add Ticket</DialogTitle>
+        <Divider></Divider>
       <div className={classes.dialogBox}>
         <Grid xs={12} className={classes.firstInputFieldStyle}>
           <label className={classes.labelWidth}>AssignedTo</label>
@@ -83,6 +85,18 @@ function EditModel(props) {
           />
         </Grid>
         <Grid xs={12} className={classes.inputFieldStyle}>
+          <label className={classes.discriptionLabel}>Ticket_content</label>
+          <TextField
+            id="standard-multiline-static"
+            multiline
+            rows={4}
+            variant="outlined"
+            value={updateRow.ticket_content}
+            name="ticket_content"
+            onChange={handleOnchageValue}
+          />
+        </Grid>
+        <Grid xs={12} className={classes.inputFieldStyle}>
           <label className={classes.labelWidth}>Status</label>
           <Select
             native
@@ -91,9 +105,9 @@ function EditModel(props) {
             value={updateRow.ticket_status}
             name="ticket_status"
           >
-            <option value="Todo">TODO</option>
-            <option value="InProgress">InProgress</option>
-            <option value="Review">Review</option>
+            <option value="Open">TODO</option>
+            <option value="Pending">InProgress</option>
+            <option value="Pending">Review</option>
             <option value="Close">Close</option>
           </Select>
         </Grid>
@@ -148,8 +162,9 @@ const useStyles = makeStyles((theme) => ({
     width: "150px",
   },
   dialogBox: {
-    width: "500px",
-    height: "300px",
+    width: "550px",
+    overflow: "auto",
+    height: "350px",
   },
   discriptionLabel: {
     width: "150px",
@@ -160,4 +175,4 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default EditModel;
+export default AddTicketModel;
